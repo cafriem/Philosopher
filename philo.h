@@ -33,6 +33,7 @@ typedef struct main_data
 	signed long		TTE; // time to eat
 	signed long		TTS; // time to sleep
 	int				No_PhiloTE; // NO of times to eat
+	int				dead;
 	pthread_t		*tid;
 	pthread_mutex_t	*mforks;
 	p_data			**phil;
