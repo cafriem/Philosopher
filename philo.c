@@ -4,44 +4,52 @@ int	death_timer(m_data *main_s, unsigned int p_id)
 {
 	if (cal_time(main_s->phil[p_id]->death_time) > main_s->TTD)
 	{
+		pthread_mutex_lock(&main_s->death);
 		if (main_s->dead == 0)
 		{
 			printf("%ld %d is dead\n", print_time(main_s->time), p_id);
 			main_s->dead = 1;
 		}
+		pthread_mutex_unlock(&main_s->death);
 		return (1);
 	}
 	return (0);
-	//still needs work
 }
 
-void	eating(m_data main_s, unsigned int p_id, signed long timer)
+int	eating(m_data main_s, unsigned int p_id, signed long timer)
 {
 	signed long	time;
 
 	time = 0;
-	death_timer(&main_s, p_id);
+	if(death_timer(&main_s, p_id) == 1)
+		return (1);
 	printf("%ld %d is eating\n", print_time(main_s.time), p_id);
 	gettimeofday(&main_s.phil[p_id]->set_time, NULL);
 	gettimeofday(&main_s.phil[p_id]->death_time, NULL);
 	while(timer > time)
 	{
 		if (death_timer(&main_s, p_id) == 1)
-			break;
+			return (1);
 		time = cal_time(main_s.phil[p_id]->set_time);
-		usleep(50);
+		usleep(200);
 	}
+	return (0);
 }
 
-void	start_eating(m_data *main_s, unsigned int p_id)
+int	start_eating(m_data *main_s, unsigned int p_id)
 {
+	int	c;
+
+	c = 0;
 	pthread_mutex_lock(&main_s->mforks[p_id]);
 	if (p_id == (unsigned)main_s->No_Philo - 1)
 	{
 		pthread_mutex_lock(&main_s->mforks[0]);
 		main_s->phil[p_id]->forks = 2;
 		main_s->phil[0]->forks = 0;
-		eating(*main_s, p_id, main_s->TTE);
+		printf("%ld %d picked up fork\n", print_time(main_s->time), p_id);
+		if (eating(*main_s, p_id, main_s->TTE) == 1)
+			c = 1;
 		pthread_mutex_unlock(&main_s->mforks[p_id]);
 		pthread_mutex_unlock(&main_s->mforks[0]);
 	}
@@ -50,34 +58,44 @@ void	start_eating(m_data *main_s, unsigned int p_id)
 		pthread_mutex_lock(&main_s->mforks[p_id + 1]);
 		main_s->phil[p_id]->forks = 2;
 		main_s->phil[p_id + 1]->forks = 0;
-		eating(*main_s, p_id, main_s->TTE);
+		printf("%ld %d picked up fork\n", print_time(main_s->time), p_id);
+		if (eating(*main_s, p_id, main_s->TTE) == 1)
+			c = 1;
 		pthread_mutex_unlock(&main_s->mforks[p_id]);
 		pthread_mutex_unlock(&main_s->mforks[p_id + 1]);
 	}
+	return (c);
 }
 
-void	start_sleeping(m_data *main_s,  unsigned int p_id, signed long timer)
+int	start_sleeping(m_data *main_s,  unsigned int p_id, signed long timer)
 {
 	signed long	time;
 
 	time = 0;
 	print_time(main_s->time);
-	death_timer(main_s, p_id);
+	if(death_timer(main_s, p_id) == 1)
+		return (1);
 	printf("%ld %d is sleeping\n", print_time(main_s->time), p_id);
 	gettimeofday(&main_s->phil[p_id]->set_time, NULL);
 	while(timer > time)
 	{
 		if (death_timer(main_s, p_id) == 1)
-			break;
+			return(1);
 		time = cal_time(main_s->phil[p_id]->set_time);
-		usleep(50);
+		usleep(200);
 	}
+	return(0);
 }
 
 int	dead_checker(m_data *main_s)
 {
+	pthread_mutex_lock(&main_s->death);
 	if (main_s->dead == 1)
+	{
+		pthread_mutex_unlock(&main_s->death);
 		return (1);
+	}
+	pthread_mutex_unlock(&main_s->death);
 	return (0);
 }
 
@@ -110,7 +128,6 @@ void	*start(p_data *phil)
 				return (NULL);
 			start_sleeping(phil->main_s, phil->p_id, phil->main_s->TTS);
 		}
-		return (NULL);
 	}
 	return (NULL);
 }
@@ -173,6 +190,7 @@ int	main(int argc, char *argv[])
 		main_s->phil[c]->main_s = main_s;
 		c++;
 	}
+	pthread_mutex_init(&main_s->death, NULL);
 	Create_Thread(main_s);
 	c = 0;
 	while (c < main_s->No_Philo)
@@ -181,6 +199,7 @@ int	main(int argc, char *argv[])
 		pthread_mutex_destroy(&main_s->mforks[c]);
 		c++;
 	}
+	pthread_mutex_destroy(&main_s->death);
 	free(main_s->phil);
 	free(main_s->tid);
 	free(main_s->mforks);

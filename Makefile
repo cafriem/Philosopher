@@ -2,7 +2,7 @@ NAME = philo
 
 CC = gcc
 
-CFLAGS = -Wall -Wextra -Werror -g -pthread -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g -pthread 
 
 SRCS =	philo.c			\
 		philo_time.c	

@@ -35,6 +35,7 @@ typedef struct main_data
 	int				No_PhiloTE; // NO of times to eat
 	int				dead;
 	pthread_t		*tid;
+	pthread_mutex_t	death;
 	pthread_mutex_t	*mforks;
 	p_data			**phil;
 }	m_data;
