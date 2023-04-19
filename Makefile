@@ -2,9 +2,10 @@ NAME = philo
 
 CC = gcc
 
-CFLAGS = -Wall -Wextra -Werror -g -pthread 
+CFLAGS = -Wall -Wextra -Werror -g -pthread #-fsanitize=thread
 
 SRCS =	philo.c			\
+		philo_eat.c		\
 		philo_time.c	
 
 OBJS = $(SRCS:.c=.o)

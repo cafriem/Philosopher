@@ -7,64 +7,15 @@ int	death_timer(m_data *main_s, unsigned int p_id)
 		pthread_mutex_lock(&main_s->death);
 		if (main_s->dead == 0)
 		{
+			// pthread_mutex_lock(&main_s->print);
 			printf("%ld %d is dead\n", print_time(main_s->time), p_id);
+			// pthread_mutex_unlock(&main_s->print);
 			main_s->dead = 1;
 		}
 		pthread_mutex_unlock(&main_s->death);
 		return (1);
 	}
 	return (0);
-}
-
-int	eating(m_data main_s, unsigned int p_id, signed long timer)
-{
-	signed long	time;
-
-	time = 0;
-	if(death_timer(&main_s, p_id) == 1)
-		return (1);
-	printf("%ld %d is eating\n", print_time(main_s.time), p_id);
-	gettimeofday(&main_s.phil[p_id]->set_time, NULL);
-	gettimeofday(&main_s.phil[p_id]->death_time, NULL);
-	while(timer > time)
-	{
-		if (death_timer(&main_s, p_id) == 1)
-			return (1);
-		time = cal_time(main_s.phil[p_id]->set_time);
-		usleep(200);
-	}
-	return (0);
-}
-
-int	start_eating(m_data *main_s, unsigned int p_id)
-{
-	int	c;
-
-	c = 0;
-	pthread_mutex_lock(&main_s->mforks[p_id]);
-	if (p_id == (unsigned)main_s->No_Philo - 1)
-	{
-		pthread_mutex_lock(&main_s->mforks[0]);
-		main_s->phil[p_id]->forks = 2;
-		main_s->phil[0]->forks = 0;
-		printf("%ld %d picked up fork\n", print_time(main_s->time), p_id);
-		if (eating(*main_s, p_id, main_s->TTE) == 1)
-			c = 1;
-		pthread_mutex_unlock(&main_s->mforks[p_id]);
-		pthread_mutex_unlock(&main_s->mforks[0]);
-	}
-	else
-	{
-		pthread_mutex_lock(&main_s->mforks[p_id + 1]);
-		main_s->phil[p_id]->forks = 2;
-		main_s->phil[p_id + 1]->forks = 0;
-		printf("%ld %d picked up fork\n", print_time(main_s->time), p_id);
-		if (eating(*main_s, p_id, main_s->TTE) == 1)
-			c = 1;
-		pthread_mutex_unlock(&main_s->mforks[p_id]);
-		pthread_mutex_unlock(&main_s->mforks[p_id + 1]);
-	}
-	return (c);
 }
 
 int	start_sleeping(m_data *main_s,  unsigned int p_id, signed long timer)
@@ -75,7 +26,9 @@ int	start_sleeping(m_data *main_s,  unsigned int p_id, signed long timer)
 	print_time(main_s->time);
 	if(death_timer(main_s, p_id) == 1)
 		return (1);
+	// pthread_mutex_lock(&main_s->print);
 	printf("%ld %d is sleeping\n", print_time(main_s->time), p_id);
+	// pthread_mutex_unlock(&main_s->print);
 	gettimeofday(&main_s->phil[p_id]->set_time, NULL);
 	while(timer > time)
 	{
@@ -132,7 +85,6 @@ void	*start(p_data *phil)
 	return (NULL);
 }
 
-
 void	Create_Thread(m_data *main_s)
 {
 	int	c;
@@ -153,6 +105,13 @@ void	Create_Thread(m_data *main_s)
 	}
 }
 
+void onephilo(m_data *main_s)
+{
+	printf ("0 0 picked up a fork\n");
+	printf ("%ld 0 is dead\n", main_s->TTD);
+	exit (0);
+}
+
 int	main(int argc, char *argv[])
 {
 	m_data	*main_s;
@@ -160,18 +119,20 @@ int	main(int argc, char *argv[])
 	if (argc < 5 || argc > 6)
 	{
 		printf("Wrong amount of arguments.\n");
-		exit (0);
+		exit (1);
 	}
-	if (ft_atoi(argv[1]) < 2)
+	if (ft_atoi(argv[1]) < 0)
 	{
-		printf("Less than 2 philosopher.\n");
-		exit (0);
+		printf("Less than 0 philosopher.\n");
+		exit (1);
 	}
 	main_s = ft_calloc(1, sizeof(m_data));
 	main_s->No_Philo = ft_atoi(argv[1]);
 	main_s->TTD = ft_atoi(argv[2]);
 	main_s->TTE = ft_atoi(argv[3]);
 	main_s->TTS = ft_atoi(argv[4]);
+	if (main_s->No_Philo == 1)
+		onephilo(main_s);
 	main_s->phil = ft_calloc(main_s->No_Philo, sizeof(p_data*));
 	main_s->tid = ft_calloc(main_s->No_Philo, sizeof(pthread_t));
 	main_s->mforks = ft_calloc(main_s->No_Philo, sizeof(pthread_mutex_t));
@@ -191,6 +152,7 @@ int	main(int argc, char *argv[])
 		c++;
 	}
 	pthread_mutex_init(&main_s->death, NULL);
+	pthread_mutex_init(&main_s->print, NULL);
 	Create_Thread(main_s);
 	c = 0;
 	while (c < main_s->No_Philo)
@@ -200,6 +162,7 @@ int	main(int argc, char *argv[])
 		c++;
 	}
 	pthread_mutex_destroy(&main_s->death);
+	pthread_mutex_destroy(&main_s->print);
 	free(main_s->phil);
 	free(main_s->tid);
 	free(main_s->mforks);
