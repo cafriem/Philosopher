@@ -6,7 +6,9 @@ CFLAGS = -Wall -Wextra -Werror -g -pthread #-fsanitize=thread
 
 SRCS =	philo.c			\
 		philo_eat.c		\
-		philo_time.c	
+		philo_time.c	\
+		philo_death.c	\
+		philo_utils.c
 
 OBJS = $(SRCS:.c=.o)
 

@@ -45,9 +45,10 @@ signed long	cal_time(struct timeval time);
 signed long	cal_time_print(struct timeval time, struct timeval current_time);
 long		print_time(struct timeval time);
 int			dead_checker(m_data *main_s);
-int	eating(m_data main_s, unsigned int p_id, signed long timer);
-int	start_eating(m_data *main_s, unsigned int p_id);
-int	death_timer(m_data *main_s, unsigned int p_id);
+int			death_timer(m_data *main_s, unsigned int p_id);
+int			eating(m_data main_s, unsigned int p_id, signed long timer);
+int			start_eating(m_data *main_s, unsigned int p_id);
+void		freeing(m_data *main_s);
 
 
 #endif

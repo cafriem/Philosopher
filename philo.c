@@ -1,29 +1,10 @@
 #include "philo.h"
 
-int	death_timer(m_data *main_s, unsigned int p_id)
-{
-	if (cal_time(main_s->phil[p_id]->death_time) > main_s->TTD)
-	{
-		pthread_mutex_lock(&main_s->death);
-		if (main_s->dead == 0)
-		{
-			// pthread_mutex_lock(&main_s->print);
-			printf("%ld %d is dead\n", print_time(main_s->time), p_id);
-			// pthread_mutex_unlock(&main_s->print);
-			main_s->dead = 1;
-		}
-		pthread_mutex_unlock(&main_s->death);
-		return (1);
-	}
-	return (0);
-}
-
 int	start_sleeping(m_data *main_s,  unsigned int p_id, signed long timer)
 {
 	signed long	time;
 
 	time = 0;
-	print_time(main_s->time);
 	if(death_timer(main_s, p_id) == 1)
 		return (1);
 	// pthread_mutex_lock(&main_s->print);
@@ -38,18 +19,6 @@ int	start_sleeping(m_data *main_s,  unsigned int p_id, signed long timer)
 		usleep(200);
 	}
 	return(0);
-}
-
-int	dead_checker(m_data *main_s)
-{
-	pthread_mutex_lock(&main_s->death);
-	if (main_s->dead == 1)
-	{
-		pthread_mutex_unlock(&main_s->death);
-		return (1);
-	}
-	pthread_mutex_unlock(&main_s->death);
-	return (0);
 }
 
 void	*start(p_data *phil)
@@ -154,16 +123,5 @@ int	main(int argc, char *argv[])
 	pthread_mutex_init(&main_s->death, NULL);
 	pthread_mutex_init(&main_s->print, NULL);
 	Create_Thread(main_s);
-	c = 0;
-	while (c < main_s->No_Philo)
-	{
-		free(main_s->phil[c]);
-		pthread_mutex_destroy(&main_s->mforks[c]);
-		c++;
-	}
-	pthread_mutex_destroy(&main_s->death);
-	pthread_mutex_destroy(&main_s->print);
-	free(main_s->phil);
-	free(main_s->tid);
-	free(main_s->mforks);
+	freeing(main_s);
 }
