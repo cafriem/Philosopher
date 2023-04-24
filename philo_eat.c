@@ -5,6 +5,7 @@ int	eating(m_data main_s, unsigned int p_id, signed long timer)
 	signed long	time;
 
 	time = 0;
+	death_timer(&main_s, p_id);
 	if(dead_checker(&main_s) == 1)
 		return (1);
 	pthread_mutex_lock(&main_s.print);
@@ -29,13 +30,10 @@ int	start_eating(m_data *main_s, unsigned int p_id)
 	c = 0;
 	if (death_timer(main_s, p_id) == 1)
 		return (1);
-	if (dead_checker(main_s) == 1)
-		return (1);
 	pthread_mutex_lock(&main_s->mforks[p_id]);
 	if (p_id == (unsigned)main_s->No_Philo - 1)
 	{
 		pthread_mutex_lock(&main_s->mforks[0]);
-		main_s->phil[p_id]->forks = 2;
 		death_timer(main_s, p_id);
 		if (dead_checker(main_s) == 1)
 		{
@@ -47,7 +45,6 @@ int	start_eating(m_data *main_s, unsigned int p_id)
 		printf("%ld %d picked up a fork\n", print_time(main_s->time), p_id);
 		printf("%ld %d picked up a fork\n", print_time(main_s->time), p_id);
 		pthread_mutex_unlock(&main_s->print);
-		main_s->phil[0]->forks = 0;
 		if (eating(*main_s, p_id, main_s->TTE) == 1)
 			c = 0;
 		pthread_mutex_unlock(&main_s->mforks[p_id]);
@@ -56,7 +53,6 @@ int	start_eating(m_data *main_s, unsigned int p_id)
 	else
 	{
 		pthread_mutex_lock(&main_s->mforks[p_id + 1]);
-		main_s->phil[p_id]->forks = 2;
 		death_timer(main_s, p_id);
 		if (dead_checker(main_s) == 1)
 		{
@@ -68,7 +64,6 @@ int	start_eating(m_data *main_s, unsigned int p_id)
 		printf("%ld %d picked up a fork\n", print_time(main_s->time), p_id);
 		printf("%ld %d picked up a fork\n", print_time(main_s->time), p_id);
 		pthread_mutex_unlock(&main_s->print);
-		main_s->phil[p_id + 1]->forks = 0;
 		if (eating(*main_s, p_id, main_s->TTE) == 1)
 			c = 0;
 		pthread_mutex_unlock(&main_s->mforks[p_id]);
