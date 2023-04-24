@@ -7,9 +7,9 @@ int	start_sleeping(m_data *main_s,  unsigned int p_id, signed long timer)
 	time = 0;
 	if(death_timer(main_s, p_id) == 1)
 		return (1);
-	// pthread_mutex_lock(&main_s->print);
+	pthread_mutex_lock(&main_s->print);
 	printf("%ld %d is sleeping\n", print_time(main_s->time), p_id);
-	// pthread_mutex_unlock(&main_s->print);
+	pthread_mutex_unlock(&main_s->print);
 	gettimeofday(&main_s->phil[p_id]->set_time, NULL);
 	while(timer > time)
 	{
@@ -36,6 +36,8 @@ void	*start(p_data *phil)
 			if(dead_checker(phil->main_s) == 1)
 				return (NULL);
 			start_sleeping(phil->main_s, phil->p_id, phil->main_s->TTS);
+			if(dead_checker(phil->main_s) == 1)
+				return (NULL);
 			c++;
 		}
 	}
@@ -49,6 +51,8 @@ void	*start(p_data *phil)
 			if(dead_checker(phil->main_s) == 1)
 				return (NULL);
 			start_sleeping(phil->main_s, phil->p_id, phil->main_s->TTS);
+			if(dead_checker(phil->main_s) == 1)
+				return (NULL);
 		}
 	}
 	return (NULL);
@@ -81,6 +85,41 @@ void onephilo(m_data *main_s)
 	exit (0);
 }
 
+void	ft_init(m_data *main_s, int argc, char *argv[])
+{
+	main_s->No_Philo = ft_atoi(argv[1]);
+	main_s->TTD = ft_atoi(argv[2]);
+	main_s->TTE = ft_atoi(argv[3]);
+	main_s->TTS = ft_atoi(argv[4]);
+	if (main_s->No_Philo == 1)
+		onephilo(main_s);
+	main_s->phil = ft_calloc(main_s->No_Philo, sizeof(p_data*));
+	main_s->tid = ft_calloc(main_s->No_Philo, sizeof(pthread_t));
+	main_s->mforks = ft_calloc(main_s->No_Philo, sizeof(pthread_mutex_t));
+	if (argc == 6)
+		main_s->No_PhiloTE = ft_atoi(argv[5]);
+	main_s->dead = 0;
+}
+
+void	ft_philo_init(m_data *main_s)
+{
+	int	c;
+
+	c = 0;
+	while (c < main_s->No_Philo)
+	{
+		main_s->phil[c] = ft_calloc(1, sizeof(p_data));
+		gettimeofday(&main_s->phil[c]->death_time, NULL);
+		pthread_mutex_init(&main_s->mforks[c], NULL);
+		main_s->phil[c]->p_id = c;
+		main_s->phil[c]->forks = 1;
+		main_s->phil[c]->main_s = main_s;
+		c++;
+	}
+	pthread_mutex_init(&main_s->death, NULL);
+	pthread_mutex_init(&main_s->print, NULL);
+}
+
 int	main(int argc, char *argv[])
 {
 	m_data	*main_s;
@@ -96,32 +135,8 @@ int	main(int argc, char *argv[])
 		exit (1);
 	}
 	main_s = ft_calloc(1, sizeof(m_data));
-	main_s->No_Philo = ft_atoi(argv[1]);
-	main_s->TTD = ft_atoi(argv[2]);
-	main_s->TTE = ft_atoi(argv[3]);
-	main_s->TTS = ft_atoi(argv[4]);
-	if (main_s->No_Philo == 1)
-		onephilo(main_s);
-	main_s->phil = ft_calloc(main_s->No_Philo, sizeof(p_data*));
-	main_s->tid = ft_calloc(main_s->No_Philo, sizeof(pthread_t));
-	main_s->mforks = ft_calloc(main_s->No_Philo, sizeof(pthread_mutex_t));
-	if (argc == 6)
-		main_s->No_PhiloTE = ft_atoi(argv[5]);
-	main_s->dead = 0;
-	int	c;
-	c = 0;
-	while (c < main_s->No_Philo)
-	{
-		main_s->phil[c] = ft_calloc(1, sizeof(p_data));
-		gettimeofday(&main_s->phil[c]->death_time, NULL);
-		pthread_mutex_init(&main_s->mforks[c], NULL);
-		main_s->phil[c]->p_id = c;
-		main_s->phil[c]->forks = 1;
-		main_s->phil[c]->main_s = main_s;
-		c++;
-	}
-	pthread_mutex_init(&main_s->death, NULL);
-	pthread_mutex_init(&main_s->print, NULL);
+	ft_init(main_s, argc, argv);
+	ft_philo_init(main_s);
 	Create_Thread(main_s);
 	freeing(main_s);
 }

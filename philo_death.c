@@ -7,9 +7,9 @@ int	death_timer(m_data *main_s, unsigned int p_id)
 		pthread_mutex_lock(&main_s->death);
 		if (main_s->dead == 0)
 		{
-			// pthread_mutex_lock(&main_s->print);
+			pthread_mutex_lock(&main_s->print);
 			printf("%ld %d is dead\n", print_time(main_s->time), p_id);
-			// pthread_mutex_unlock(&main_s->print);
+			pthread_mutex_unlock(&main_s->print);
 			main_s->dead = 1;
 		}
 		pthread_mutex_unlock(&main_s->death);
