@@ -76,7 +76,6 @@ int	start_eating(m_data *main_s, unsigned int p_id)
 	pthread_mutex_lock(&main_s->mforks[p_id]);
 	if (p_id == (unsigned)main_s->No_Philo - 1)
 	{
-<<<<<<< HEAD
 		if (eating_part1(main_s, p_id, c) == 1)
 			return (1);
 	}
@@ -84,7 +83,6 @@ int	start_eating(m_data *main_s, unsigned int p_id)
 	{
 		if (eating_part2(main_s, p_id, c) == 1)
 			return (1);
-=======
 		pthread_mutex_lock(&main_s->mforks[0]);
 		main_s->phil[p_id]->forks = 2;
 		death_timer(main_s, p_id);
@@ -124,7 +122,6 @@ int	start_eating(m_data *main_s, unsigned int p_id)
 			c = 0;
 		pthread_mutex_unlock(&main_s->mforks[p_id]);
 		pthread_mutex_unlock(&main_s->mforks[p_id + 1]);
->>>>>>> parent of ca4f3ad (dinozo)
 	}
 	return (1);
 }
