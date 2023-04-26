@@ -48,8 +48,6 @@ int			dead_checker(m_data *main_s);
 int			death_timer(m_data *main_s, unsigned int p_id);
 int			eating(m_data main_s, unsigned int p_id, signed long timer);
 int			start_eating(m_data *main_s, unsigned int p_id);
-int			eating_part1(m_data *main_s, unsigned int p_id, int c);
-int			eating_part2(m_data *main_s, unsigned int p_id, int c);
 void		freeing(m_data *main_s);
 
 
