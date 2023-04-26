@@ -7,7 +7,6 @@
 # include <unistd.h>
 # include <stdint.h>
 # include <signal.h>
-# include "Libft/libft.h"
 # include <stdio.h>
 # include <fcntl.h>
 # include <math.h>
@@ -18,7 +17,7 @@ typedef struct main_data m_data;
 
 typedef struct phil_data
 {
-	unsigned int	p_id;
+	int				p_id;
 	unsigned int	forks;
 	struct timeval	set_time;
 	struct timeval	death_time;
@@ -45,10 +44,13 @@ signed long	cal_time(struct timeval time);
 signed long	cal_time_print(struct timeval time, struct timeval current_time);
 long		print_time(struct timeval time);
 int			dead_checker(m_data *main_s);
-int			death_timer(m_data *main_s, unsigned int p_id);
-int			eating(m_data main_s, unsigned int p_id, signed long timer);
-int			start_eating(m_data *main_s, unsigned int p_id);
+int			death_timer(m_data *main_s, int p_id);
+int			eating(m_data main_s, int p_id, signed long timer);
+int			start_eating(m_data *main_s, int p_id);
 void		freeing(m_data *main_s);
-
+//-----------------------------------//
+int			ft_atoi(const char *str);
+void		*ft_calloc(size_t count, size_t size);
+void		ft_bzero(void *s, size_t n);
 
 #endif

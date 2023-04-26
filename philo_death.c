@@ -1,6 +1,6 @@
 #include "philo.h"
 
-int	death_timer(m_data *main_s, unsigned int p_id)
+int	death_timer(m_data *main_s, int p_id)
 {
 	if (cal_time(main_s->phil[p_id]->death_time) > main_s->TTD)
 	{
