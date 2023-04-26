@@ -19,6 +19,7 @@ typedef struct main_data m_data;
 typedef struct phil_data
 {
 	unsigned int	p_id;
+	unsigned int	forks;
 	struct timeval	set_time;
 	struct timeval	death_time;
 	m_data			*main_s;

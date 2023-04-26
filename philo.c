@@ -112,6 +112,7 @@ void	ft_philo_init(m_data *main_s)
 		gettimeofday(&main_s->phil[c]->death_time, NULL);
 		pthread_mutex_init(&main_s->mforks[c], NULL);
 		main_s->phil[c]->p_id = c;
+		main_s->phil[c]->forks = 1;
 		main_s->phil[c]->main_s = main_s;
 		c++;
 	}
@@ -128,15 +129,9 @@ int	main(int argc, char *argv[])
 		printf("Wrong amount of arguments.\n");
 		exit (1);
 	}
-	if (ft_atoi(argv[1]) <= 0)
+	if (ft_atoi(argv[1]) < 0)
 	{
-		printf("Enter a higher than 0 amont of philosophers.\n");
-		exit (1);
-	}
-	if (ft_atoi(argv[2]) <= 0 || ft_atoi(argv[3]) <= 0 ||
-		(ft_atoi(argv[4]) <= 0))
-	{
-		printf("Wrong arguements entered.\n");
+		printf("Less than 0 philosopher.\n");
 		exit (1);
 	}
 	main_s = ft_calloc(1, sizeof(m_data));
