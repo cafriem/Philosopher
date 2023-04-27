@@ -21,22 +21,29 @@ int	start_sleeping(m_data *main_s,  unsigned int p_id, signed long timer)
 	return(0);
 }
 
+int	philo_looper(p_data *phil)
+{
+	if(dead_checker(phil->main_s) == 1)
+		return (1);
+	start_eating(phil->main_s, phil->p_id);
+	if(dead_checker(phil->main_s) == 1)
+		return (1);
+	start_sleeping(phil->main_s, phil->p_id, phil->main_s->TTS);
+	if(dead_checker(phil->main_s) == 1)
+		return (1);
+	return (0);
+}
+
 void	*start(p_data *phil)
 {
 	int c;
 
-	c = 0;
 	if (phil->main_s->No_PhiloTE)
 	{
+		c = 0;
 		while (phil->main_s->No_PhiloTE > c)
 		{
-			if(dead_checker(phil->main_s) == 1)
-				return (NULL);
-			start_eating(phil->main_s, phil->p_id);
-			if(dead_checker(phil->main_s) == 1)
-				return (NULL);
-			start_sleeping(phil->main_s, phil->p_id, phil->main_s->TTS);
-			if(dead_checker(phil->main_s) == 1)
+			if(philo_looper(phil) == 1)
 				return (NULL);
 			c++;
 		}
@@ -45,13 +52,7 @@ void	*start(p_data *phil)
 	{
 		while(phil)
 		{
-			if(dead_checker(phil->main_s) == 1)
-				return (NULL);
-			start_eating(phil->main_s, phil->p_id);
-			if(dead_checker(phil->main_s) == 1)
-				return (NULL);
-			start_sleeping(phil->main_s, phil->p_id, phil->main_s->TTS);
-			if(dead_checker(phil->main_s) == 1)
+			if(philo_looper(phil) == 1)
 				return (NULL);
 		}
 	}
