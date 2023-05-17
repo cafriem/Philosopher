@@ -45,12 +45,13 @@ signed long	cal_time_print(struct timeval time, struct timeval current_time);
 long		print_time(struct timeval time);
 int			dead_checker(m_data *main_s);
 int			death_timer(m_data *main_s, int p_id);
-int			eating(m_data main_s, int p_id, signed long timer);
+int			eating(m_data *main_s, int p_id, signed long timer);
 int			start_eating(m_data *main_s, int p_id);
 void		freeing(m_data *main_s);
 //-----------------------------------//
 int			ft_atoi(const char *str);
 void		*ft_calloc(size_t count, size_t size);
 void		ft_bzero(void *s, size_t n);
+void		arg_checkers(int argc, char *argv[]);
 
 #endif

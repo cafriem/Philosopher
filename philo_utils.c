@@ -16,6 +16,7 @@ void	freeing(m_data *main_s)
 	free(main_s->phil);
 	free(main_s->tid);
 	free(main_s->mforks);
+	free(main_s);
 }
 
 void	ft_bzero(void *s, size_t n)

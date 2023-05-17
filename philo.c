@@ -121,20 +121,40 @@ void	ft_philo_init(m_data *main_s)
 	pthread_mutex_init(&main_s->print, NULL);
 }
 
-int	main(int argc, char *argv[])
+int	ft_isdigit(int c)
 {
-	m_data	*main_s;
+	if (c >= '0' && c <= '9')
+		return (1);
+	return (0);
+}
+
+void	arg_checkers(int argc, char *argv[])
+{
+	int	counter;
 
 	if (argc < 5 || argc > 6)
 	{
 		printf("Wrong amount of arguments.\n");
 		exit (1);
 	}
-	if (ft_atoi(argv[1]) < 0)
+	counter = 1;
+	while (argc > counter)
 	{
-		printf("Less than 0 philosopher.\n");
-		exit (1);
+		printf("enter\n");
+		if (ft_atoi(argv[counter]) <= 0)
+		{
+			printf("less than 0 or 0 in arguments.\n");
+			exit (1);
+		}
+		counter++;
 	}
+}
+
+int	main(int argc, char *argv[])
+{
+	m_data	*main_s;
+
+	arg_checkers(argc, argv);
 	main_s = ft_calloc(1, sizeof(m_data));
 	ft_init(main_s, argc, argv);
 	ft_philo_init(main_s);
