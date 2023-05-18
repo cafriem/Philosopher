@@ -79,21 +79,23 @@ void	Create_Thread(m_data *main_s)
 	}
 }
 
-void onephilo(m_data *main_s)
+void	onephilo(m_data *main_s)
 {
-	printf ("0 0 picked up a fork\n");
-	printf ("%ld 0 is dead\n", main_s->TTD);
-	exit (0);
+	printf("0 0 picked up a fork\n");
+	usleep(main_s->TTD * 1000);
+	printf("%ld 0 is dead\n", main_s->TTD);
+	free(main_s);
+	exit(0);
 }
 
 void	ft_init(m_data *main_s, int argc, char *argv[])
 {
 	main_s->No_Philo = ft_atoi(argv[1]);
 	main_s->TTD = ft_atoi(argv[2]);
-	main_s->TTE = ft_atoi(argv[3]);
-	main_s->TTS = ft_atoi(argv[4]);
 	if (main_s->No_Philo == 1)
 		onephilo(main_s);
+	main_s->TTE = ft_atoi(argv[3]);
+	main_s->TTS = ft_atoi(argv[4]);
 	main_s->phil = ft_calloc(main_s->No_Philo, sizeof(p_data*));
 	main_s->tid = ft_calloc(main_s->No_Philo, sizeof(pthread_t));
 	main_s->mforks = ft_calloc(main_s->No_Philo, sizeof(pthread_mutex_t));
