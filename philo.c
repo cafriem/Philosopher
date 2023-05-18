@@ -101,6 +101,7 @@ void	ft_init(m_data *main_s, int argc, char *argv[])
 	main_s->mforks = ft_calloc(main_s->No_Philo, sizeof(pthread_mutex_t));
 	if (argc == 6)
 		main_s->No_PhiloTE = ft_atoi(argv[5]);
+	main_s->last_ate = 9;
 	main_s->dead = 0;
 }
 
@@ -120,6 +121,7 @@ void	ft_philo_init(m_data *main_s)
 		c++;
 	}
 	pthread_mutex_init(&main_s->death, NULL);
+	pthread_mutex_init(&main_s->last_eating, NULL);
 	pthread_mutex_init(&main_s->print, NULL);
 }
 

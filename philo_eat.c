@@ -12,7 +12,9 @@ int	eating(m_data *main_s,  int p_id, signed long timer)
 	pthread_mutex_unlock(&main_s->print);
 	gettimeofday(&main_s->phil[p_id]->set_time, NULL);
 	gettimeofday(&main_s->phil[p_id]->death_time, NULL);
+	pthread_mutex_lock(&main_s->last_eating);
 	main_s->last_ate = p_id;
+	pthread_mutex_unlock(&main_s->last_eating);
 	while(timer > time)
 	{
 		if (death_timer(main_s, p_id) == 1)
@@ -27,8 +29,10 @@ int	eating_part1(m_data *main_s, int p_id)
 {
 	int	c;
 
-	// if (main_s->last_ate == p_id)
-	// 	return(1);
+	pthread_mutex_lock(&main_s->last_eating);
+	if (main_s->last_ate == p_id)
+		return(1);
+	pthread_mutex_unlock(&main_s->last_eating);
 	pthread_mutex_lock(&main_s->mforks[0]);
 	pthread_mutex_lock(&main_s->mforks[p_id]);
 	pthread_mutex_lock(&main_s->print);
@@ -53,6 +57,10 @@ int	eating_part2(m_data *main_s, int p_id)
 	int	c;
 
 	c = 0;
+	pthread_mutex_lock(&main_s->last_eating);
+	if (main_s->last_ate == p_id)
+		return(1);
+	pthread_mutex_unlock(&main_s->last_eating);
 	pthread_mutex_lock(&main_s->mforks[p_id]);
 	pthread_mutex_lock(&main_s->mforks[p_id + 1]);
 	pthread_mutex_lock(&main_s->print);

@@ -35,6 +35,7 @@ typedef struct main_data
 	int				dead;
 	int				last_ate;
 	pthread_t		*tid;
+	pthread_mutex_t	last_eating;
 	pthread_mutex_t	death;
 	pthread_mutex_t	print;
 	pthread_mutex_t	*mforks;

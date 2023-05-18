@@ -12,6 +12,7 @@ void	freeing(m_data *main_s)
 		c++;
 	}
 	pthread_mutex_destroy(&main_s->death);
+	pthread_mutex_destroy(&main_s->last_eating);
 	pthread_mutex_destroy(&main_s->print);
 	free(main_s->phil);
 	free(main_s->tid);
