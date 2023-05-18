@@ -121,13 +121,6 @@ void	ft_philo_init(m_data *main_s)
 	pthread_mutex_init(&main_s->print, NULL);
 }
 
-int	ft_isdigit(int c)
-{
-	if (c >= '0' && c <= '9')
-		return (1);
-	return (0);
-}
-
 void	arg_checkers(int argc, char *argv[])
 {
 	int	counter;
@@ -140,7 +133,6 @@ void	arg_checkers(int argc, char *argv[])
 	counter = 1;
 	while (argc > counter)
 	{
-		printf("enter\n");
 		if (ft_atoi(argv[counter]) <= 0)
 		{
 			printf("less than 0 or 0 in arguments.\n");
