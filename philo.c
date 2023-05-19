@@ -7,9 +7,12 @@ int	start_sleeping(m_data *main_s,  unsigned int p_id, signed long timer)
 	time = 0;
 	if(death_timer(main_s, p_id) == 1)
 		return (1);
-	if (dead_checker(main_s) == 1)
-		return (1);
 	pthread_mutex_lock(&main_s->print);
+	if(dead_checker(main_s) == 1)
+	{
+		pthread_mutex_unlock(&main_s->print);
+		return (1);
+	}
 	printf("%ld %d is sleeping\n", print_time(main_s->time), p_id);
 	pthread_mutex_unlock(&main_s->print);
 	gettimeofday(&main_s->phil[p_id]->set_time, NULL);
@@ -103,7 +106,6 @@ void	ft_init(m_data *main_s, int argc, char *argv[])
 	main_s->mforks = ft_calloc(main_s->No_Philo, sizeof(pthread_mutex_t));
 	if (argc == 6)
 		main_s->No_PhiloTE = ft_atoi(argv[5]);
-	main_s->last_ate = 9;
 	main_s->dead = 0;
 }
 
@@ -123,7 +125,6 @@ void	ft_philo_init(m_data *main_s)
 		c++;
 	}
 	pthread_mutex_init(&main_s->death, NULL);
-	pthread_mutex_init(&main_s->last_eating, NULL);
 	pthread_mutex_init(&main_s->print, NULL);
 }
 
