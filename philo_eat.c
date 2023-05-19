@@ -31,14 +31,13 @@ int	eating_part1(m_data *main_s, int p_id)
 
 	pthread_mutex_lock(&main_s->last_eating);
 	if (main_s->last_ate == p_id)
+	{
+		pthread_mutex_unlock(&main_s->last_eating);
 		return(1);
+	}
 	pthread_mutex_unlock(&main_s->last_eating);
 	pthread_mutex_lock(&main_s->mforks[0]);
 	pthread_mutex_lock(&main_s->mforks[p_id]);
-	pthread_mutex_lock(&main_s->print);
-	printf("%ld %d picked up a fork\n", print_time(main_s->time), p_id);
-	printf("%ld %d picked up a fork\n", print_time(main_s->time), p_id);
-	pthread_mutex_unlock(&main_s->print);
 	death_timer(main_s, p_id);
 	if (dead_checker(main_s) == 1)
 	{
@@ -46,6 +45,10 @@ int	eating_part1(m_data *main_s, int p_id)
 		pthread_mutex_unlock(&main_s->mforks[0]);
 		return (1);
 	}
+	pthread_mutex_lock(&main_s->print);
+	printf("%ld %d picked up a fork\n", print_time(main_s->time), p_id);
+	printf("%ld %d picked up a fork\n", print_time(main_s->time), p_id);
+	pthread_mutex_unlock(&main_s->print);
 	c = eating(main_s, p_id, main_s->TTE);
 	pthread_mutex_unlock(&main_s->mforks[p_id]);
 	pthread_mutex_unlock(&main_s->mforks[0]);
@@ -59,14 +62,13 @@ int	eating_part2(m_data *main_s, int p_id)
 	c = 0;
 	pthread_mutex_lock(&main_s->last_eating);
 	if (main_s->last_ate == p_id)
+	{
+		pthread_mutex_unlock(&main_s->last_eating);
 		return(1);
+	}
 	pthread_mutex_unlock(&main_s->last_eating);
 	pthread_mutex_lock(&main_s->mforks[p_id]);
 	pthread_mutex_lock(&main_s->mforks[p_id + 1]);
-	pthread_mutex_lock(&main_s->print);
-	printf("%ld %d picked up a fork\n", print_time(main_s->time), p_id);
-	printf("%ld %d picked up a fork\n", print_time(main_s->time), p_id);
-	pthread_mutex_unlock(&main_s->print);
 	death_timer(main_s, p_id);
 	if (dead_checker(main_s) == 1)
 	{
@@ -74,6 +76,10 @@ int	eating_part2(m_data *main_s, int p_id)
 		pthread_mutex_unlock(&main_s->mforks[p_id + 1]);
 		return (1);
 	}
+	pthread_mutex_lock(&main_s->print);
+	printf("%ld %d picked up a fork\n", print_time(main_s->time), p_id);
+	printf("%ld %d picked up a fork\n", print_time(main_s->time), p_id);
+	pthread_mutex_unlock(&main_s->print);
 	c = eating(main_s, p_id, main_s->TTE);
 	pthread_mutex_unlock(&main_s->mforks[p_id]);
 	pthread_mutex_unlock(&main_s->mforks[p_id + 1]);

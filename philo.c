@@ -7,6 +7,8 @@ int	start_sleeping(m_data *main_s,  unsigned int p_id, signed long timer)
 	time = 0;
 	if(death_timer(main_s, p_id) == 1)
 		return (1);
+	if (dead_checker(main_s) == 1)
+		return (1);
 	pthread_mutex_lock(&main_s->print);
 	printf("%ld %d is sleeping\n", print_time(main_s->time), p_id);
 	pthread_mutex_unlock(&main_s->print);
