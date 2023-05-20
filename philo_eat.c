@@ -42,7 +42,7 @@ int	eating_part1(m_data *main_s, int p_id)
 	printf("%ld %d picked up a fork\n", print_time(main_s->time), p_id);
 	printf("%ld %d picked up a fork\n", print_time(main_s->time), p_id);
 	pthread_mutex_unlock(&main_s->print);
-	c = eating(main_s, p_id, main_s->TTE);
+	c = eating(main_s, p_id, main_s->tte);
 	pthread_mutex_unlock(&main_s->mforks[p_id]);
 	pthread_mutex_unlock(&main_s->mforks[0]);
 	return (c);
@@ -67,7 +67,7 @@ int	eating_part2(m_data *main_s, int p_id)
 	printf("%ld %d picked up a fork\n", print_time(main_s->time), p_id);
 	printf("%ld %d picked up a fork\n", print_time(main_s->time), p_id);
 	pthread_mutex_unlock(&main_s->print);
-	c = eating(main_s, p_id, main_s->TTE);
+	c = eating(main_s, p_id, main_s->tte);
 	pthread_mutex_unlock(&main_s->mforks[p_id]);
 	pthread_mutex_unlock(&main_s->mforks[p_id + 1]);
 	return (c);
@@ -79,7 +79,7 @@ int	start_eating(m_data *main_s, int p_id)
 		return (1);
 	if (dead_checker(main_s) == 1)
 		return (1);
-	if (p_id == main_s->No_Philo - 1)
+	if (p_id == main_s->no_philo - 1)
 		return (eating_part1(main_s, p_id));
 	else
 		return (eating_part2(main_s, p_id));

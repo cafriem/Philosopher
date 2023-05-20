@@ -18,7 +18,6 @@ typedef struct main_data m_data;
 typedef struct phil_data
 {
 	int				p_id;
-	// int				ate;
 	unsigned int	forks;
 	struct timeval	set_time;
 	struct timeval	death_time;
@@ -28,14 +27,12 @@ typedef struct phil_data
 typedef struct main_data
 {
 	struct timeval	time;
-	int				No_Philo;
-	signed long		TTD; // time to die
-	signed long		TTE; // time to eat
-	signed long		TTS; // time to sleep
-	int				No_PhiloTE; // NO of times to eat
+	int				no_philo;
+	signed long		ttd; // time to die
+	signed long		tte; // time to eat
+	signed long		tts; // time to sleep
+	int				no_philote; // NO of times to eat
 	int				dead;
-	// int				last_ate;
-	// int				secondl_last_ate;
 	pthread_t		*tid;
 	pthread_mutex_t	last_eating;
 	pthread_mutex_t	death;
