@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo_death.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cafriem <cafriem@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/20 17:40:04 by cafriem           #+#    #+#             */
+/*   Updated: 2023/05/20 18:00:06 by cafriem          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
-int	death_timer(m_data *main_s, int p_id)
+int	death_timer(t_data *main_s, int p_id)
 {
 	if (cal_time(main_s->phil[p_id]->death_time) > main_s->ttd)
 	{
@@ -18,7 +30,7 @@ int	death_timer(m_data *main_s, int p_id)
 	return (0);
 }
 
-int	dead_checker(m_data *main_s)
+int	dead_checker(t_data *main_s)
 {
 	pthread_mutex_lock(&main_s->death);
 	if (main_s->dead == 1)

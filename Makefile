@@ -5,10 +5,12 @@ CC = gcc
 CFLAGS = -Wall -Wextra -Werror -g -pthread #-fsanitize=thread
 
 SRCS =	philo.c			\
-		philo_eat.c		\
+		philo_utils.c	\
 		philo_time.c	\
-		philo_death.c	\
-		philo_utils.c
+		philo_mem.c		\
+		philo_error.c	\
+		philo_eat.c		\
+		philo_death.c
 
 OBJS = $(SRCS:.c=.o)
 

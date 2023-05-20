@@ -1,12 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo_eat.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cafriem <cafriem@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/20 17:39:22 by cafriem           #+#    #+#             */
+/*   Updated: 2023/05/20 18:00:06 by cafriem          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
-int	eating(m_data *main_s,  int p_id, signed long timer)
+int	eating(t_data *main_s, int p_id, signed long timer)
 {
 	signed long	time;
 
 	time = 0;
 	pthread_mutex_lock(&main_s->print);
-	if(dead_checker(main_s) == 1)
+	if (dead_checker(main_s) == 1)
 	{
 		pthread_mutex_unlock(&main_s->print);
 		return (1);
@@ -15,7 +27,7 @@ int	eating(m_data *main_s,  int p_id, signed long timer)
 	pthread_mutex_unlock(&main_s->print);
 	gettimeofday(&main_s->phil[p_id]->set_time, NULL);
 	gettimeofday(&main_s->phil[p_id]->death_time, NULL);
-	while(timer > time)
+	while (timer > time)
 	{
 		if (death_timer(main_s, p_id) == 1)
 			return (1);
@@ -25,14 +37,14 @@ int	eating(m_data *main_s,  int p_id, signed long timer)
 	return (0);
 }
 
-int	eating_part1(m_data *main_s, int p_id)
+int	eating_part1(t_data *main_s, int p_id)
 {
 	int	c;
 
 	pthread_mutex_lock(&main_s->mforks[p_id]);
 	death_timer(main_s, p_id);
 	pthread_mutex_lock(&main_s->print);
-	if(dead_checker(main_s) == 1)
+	if (dead_checker(main_s) == 1)
 	{
 		pthread_mutex_unlock(&main_s->print);
 		pthread_mutex_unlock(&main_s->mforks[p_id]);
@@ -48,7 +60,7 @@ int	eating_part1(m_data *main_s, int p_id)
 	return (c);
 }
 
-int	eating_part2(m_data *main_s, int p_id)
+int	eating_part2(t_data *main_s, int p_id)
 {
 	int	c;
 
@@ -57,7 +69,7 @@ int	eating_part2(m_data *main_s, int p_id)
 	pthread_mutex_lock(&main_s->mforks[p_id + 1]);
 	death_timer(main_s, p_id);
 	pthread_mutex_lock(&main_s->print);
-	if(dead_checker(main_s) == 1)
+	if (dead_checker(main_s) == 1)
 	{
 		pthread_mutex_unlock(&main_s->print);
 		pthread_mutex_unlock(&main_s->mforks[p_id + 1]);
@@ -73,7 +85,7 @@ int	eating_part2(m_data *main_s, int p_id)
 	return (c);
 }
 
-int	start_eating(m_data *main_s, int p_id)
+int	start_eating(t_data *main_s, int p_id)
 {
 	if (death_timer(main_s, p_id) == 1)
 		return (1);

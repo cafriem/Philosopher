@@ -1,23 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cafriem <cafriem@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/20 17:40:58 by cafriem           #+#    #+#             */
+/*   Updated: 2023/05/20 17:48:44 by cafriem          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
-
-void	freeing(m_data *main_s)
-{
-	int	c;
-
-	c = 0;
-	while (c < main_s->no_philo)
-	{
-		free(main_s->phil[c]);
-		pthread_mutex_destroy(&main_s->mforks[c]);
-		c++;
-	}
-	pthread_mutex_destroy(&main_s->death);
-	pthread_mutex_destroy(&main_s->print);
-	free(main_s->phil);
-	free(main_s->tid);
-	free(main_s->mforks);
-	free(main_s);
-}
 
 void	ft_bzero(void *s, size_t n)
 {
