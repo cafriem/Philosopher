@@ -6,7 +6,7 @@
 /*   By: cafriem <cafriem@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 17:41:11 by cafriem           #+#    #+#             */
-/*   Updated: 2023/05/20 18:20:35 by cafriem          ###   ########.fr       */
+/*   Updated: 2023/05/22 10:43:15 by cafriem          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	start_sleeping(t_data *main_s, unsigned int p_id, signed long timer)
 		pthread_mutex_unlock(&main_s->print);
 		return (1);
 	}
-	printf("%ld %d is sleeping\n", print_time(main_s->time), p_id);
+	printf("%ld %d is sleeping\n", print_time(main_s->time), p_id + 1);
 	pthread_mutex_unlock(&main_s->print);
 	gettimeofday(&main_s->phil[p_id]->set_time, NULL);
 	while (timer > time)
@@ -78,9 +78,9 @@ void	*start(t_philo *phil)
 
 void	onephilo(t_data *main_s)
 {
-	printf("0 0 picked up a fork\n");
+	printf("0 1 picked up a fork\n");
 	usleep(main_s->ttd * 1000);
-	printf("%ld 0 is dead\n", main_s->ttd);
+	printf("%ld 1 is dead\n", main_s->ttd);
 	free(main_s);
 	exit(0);
 }
