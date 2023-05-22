@@ -6,7 +6,7 @@
 /*   By: cafriem <cafriem@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 17:54:24 by cafriem           #+#    #+#             */
-/*   Updated: 2023/05/22 15:41:58 by cafriem          ###   ########.fr       */
+/*   Updated: 2023/05/22 16:07:57 by cafriem          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ void		letter_checker(char *argv[]);
 //-----------philo_eat.c------------//
 int			eating(t_data *main_s, int p_id, signed long timer);
 int			eating_part1_even(t_data *main_s, int p_id);
-int			eating_part1_odd(t_data *main_s, int p_id);
 int			eating_part2(t_data *main_s, int p_id);
 int			start_eating(t_data *main_s, int p_id);
 //-----------philo_death.c---------------//

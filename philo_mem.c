@@ -6,7 +6,7 @@
 /*   By: cafriem <cafriem@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 17:42:08 by cafriem           #+#    #+#             */
-/*   Updated: 2023/05/20 18:23:51 by cafriem          ###   ########.fr       */
+/*   Updated: 2023/05/22 16:48:28 by cafriem          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,9 @@ void	create_thread(t_data *main_s)
 	gettimeofday(&main_s->time, NULL);
 	while (c < main_s->no_philo)
 	{
-		gettimeofday(&main_s->phil[c]->set_time, NULL);
+		main_s->phil[c]->set_time = main_s->time;
 		pthread_create(&main_s->tid[c], NULL, (void *)&start, main_s->phil[c]);
+		usleep(100);
 		c++;
 	}
 	c = 0;
