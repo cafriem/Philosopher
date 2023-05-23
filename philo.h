@@ -6,7 +6,7 @@
 /*   By: cafriem <cafriem@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 17:54:24 by cafriem           #+#    #+#             */
-/*   Updated: 2023/05/23 12:37:27 by cafriem          ###   ########.fr       */
+/*   Updated: 2023/05/23 13:01:44 by cafriem          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ typedef struct main_data
 	int				no_philote;
 	int				dead;
 	pthread_t		*tid;
-	pthread_mutex_t	last_eating;
 	pthread_mutex_t	death;
 	pthread_mutex_t	print;
 	pthread_mutex_t	*mforks;

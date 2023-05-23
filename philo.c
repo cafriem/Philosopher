@@ -6,7 +6,7 @@
 /*   By: cafriem <cafriem@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 17:41:11 by cafriem           #+#    #+#             */
-/*   Updated: 2023/05/23 12:37:14 by cafriem          ###   ########.fr       */
+/*   Updated: 2023/05/23 13:07:37 by cafriem          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,4 +104,5 @@ int	main(int argc, char *argv[])
 	ft_philo_init(main_s);
 	create_thread(main_s);
 	freeing(main_s);
+	return (0);
 }

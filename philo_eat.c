@@ -6,7 +6,7 @@
 /*   By: cafriem <cafriem@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 17:39:22 by cafriem           #+#    #+#             */
-/*   Updated: 2023/05/23 12:49:24 by cafriem          ###   ########.fr       */
+/*   Updated: 2023/05/23 12:55:10 by cafriem          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,23 +39,15 @@ int	eating(t_data *main_s, int p_id, signed long timer)
 
 int	eating_part1_even(t_data *main_s, int p_id)
 {
-	if (p_id % 2)
-	{
-		pthread_mutex_lock(&main_s->mforks[p_id]);
-		pthread_mutex_lock(&main_s->mforks[0]);
-	}
-	else
-	{
-		pthread_mutex_lock(&main_s->mforks[p_id]);
-		pthread_mutex_lock(&main_s->mforks[0]);
-	}
+	pthread_mutex_lock(&main_s->mforks[p_id]);
+	pthread_mutex_lock(&main_s->mforks[0]);
 	death_timer(main_s, p_id);
 	pthread_mutex_lock(&main_s->print);
 	if (dead_checker(main_s) == 1)
 	{
 		pthread_mutex_unlock(&main_s->print);
-		pthread_mutex_unlock(&main_s->mforks[p_id]);
 		pthread_mutex_unlock(&main_s->mforks[0]);
+		pthread_mutex_unlock(&main_s->mforks[p_id]);
 		return (1);
 	}
 	printf("%ld %d picked up a fork\n", print_time(main_s->time), p_id + 1);
@@ -69,23 +61,15 @@ int	eating_part1_even(t_data *main_s, int p_id)
 
 int	eating_part2(t_data *main_s, int p_id)
 {
-	if (p_id % 2)
-	{
-		pthread_mutex_lock(&main_s->mforks[p_id]);
-		pthread_mutex_lock(&main_s->mforks[p_id + 1]);
-	}
-	else
-	{
-		pthread_mutex_lock(&main_s->mforks[p_id]);
-		pthread_mutex_lock(&main_s->mforks[p_id + 1]);
-	}
+	pthread_mutex_lock(&main_s->mforks[p_id]);
+	pthread_mutex_lock(&main_s->mforks[p_id + 1]);
 	death_timer(main_s, p_id);
 	pthread_mutex_lock(&main_s->print);
 	if (dead_checker(main_s) == 1)
 	{
 		pthread_mutex_unlock(&main_s->print);
-		pthread_mutex_unlock(&main_s->mforks[p_id]);
 		pthread_mutex_unlock(&main_s->mforks[p_id + 1]);
+		pthread_mutex_unlock(&main_s->mforks[p_id]);
 		return (1);
 	}
 	printf("%ld %d picked up a fork\n", print_time(main_s->time), p_id + 1);
