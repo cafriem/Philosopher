@@ -6,7 +6,7 @@
 /*   By: cafriem <cafriem@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 17:42:08 by cafriem           #+#    #+#             */
-/*   Updated: 2023/05/22 16:48:28 by cafriem          ###   ########.fr       */
+/*   Updated: 2023/05/23 12:35:55 by cafriem          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,6 @@
 
 void	ft_init(t_data *main_s, int argc, char *argv[])
 {
-	main_s->no_philo = ft_atoi(argv[1]);
-	main_s->ttd = ft_atoi(argv[2]);
-	if (main_s->no_philo == 1)
-		onephilo(main_s);
 	main_s->tte = ft_atoi(argv[3]);
 	main_s->tts = ft_atoi(argv[4]);
 	main_s->phil = ft_calloc(main_s->no_philo, sizeof(t_philo *));

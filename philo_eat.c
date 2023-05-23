@@ -6,7 +6,7 @@
 /*   By: cafriem <cafriem@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 17:39:22 by cafriem           #+#    #+#             */
-/*   Updated: 2023/05/22 16:31:30 by cafriem          ###   ########.fr       */
+/*   Updated: 2023/05/23 12:49:24 by cafriem          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ int	eating_part1_even(t_data *main_s, int p_id)
 	}
 	else
 	{
-		pthread_mutex_lock(&main_s->mforks[0]);
 		pthread_mutex_lock(&main_s->mforks[p_id]);
+		pthread_mutex_lock(&main_s->mforks[0]);
 	}
 	death_timer(main_s, p_id);
 	pthread_mutex_lock(&main_s->print);
@@ -76,8 +76,8 @@ int	eating_part2(t_data *main_s, int p_id)
 	}
 	else
 	{
-		pthread_mutex_lock(&main_s->mforks[p_id + 1]);
 		pthread_mutex_lock(&main_s->mforks[p_id]);
+		pthread_mutex_lock(&main_s->mforks[p_id + 1]);
 	}
 	death_timer(main_s, p_id);
 	pthread_mutex_lock(&main_s->print);

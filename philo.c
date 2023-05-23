@@ -6,7 +6,7 @@
 /*   By: cafriem <cafriem@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 17:41:11 by cafriem           #+#    #+#             */
-/*   Updated: 2023/05/22 16:44:22 by cafriem          ###   ########.fr       */
+/*   Updated: 2023/05/23 12:37:14 by cafriem          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,16 +82,24 @@ void	onephilo(t_data *main_s)
 	usleep(main_s->ttd * 1000);
 	printf("%ld 1 is dead\n", main_s->ttd);
 	free(main_s);
-	exit(0);
 }
 
 int	main(int argc, char *argv[])
 {
 	t_data	*main_s;
 
-	arg_checkers(argc, argv);
-	letter_checker(argv);
+	if (arg_checkers(argc, argv) == 1)
+		return (1);
+	if (letter_checker(argv) == 1)
+		return (1);
 	main_s = ft_calloc(1, sizeof(t_data));
+	main_s->no_philo = ft_atoi(argv[1]);
+	main_s->ttd = ft_atoi(argv[2]);
+	if (main_s->no_philo == 1)
+	{
+		onephilo(main_s);
+		return (1);
+	}
 	ft_init(main_s, argc, argv);
 	ft_philo_init(main_s);
 	create_thread(main_s);
