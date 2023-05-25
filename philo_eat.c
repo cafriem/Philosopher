@@ -61,8 +61,8 @@ int	eating_part1_even(t_data *main_s, int p_id)
 
 int	eating_part2(t_data *main_s, int p_id)
 {
-	pthread_mutex_lock(&main_s->mforks[p_id]);
 	pthread_mutex_lock(&main_s->mforks[p_id + 1]);
+	pthread_mutex_lock(&main_s->mforks[p_id]);
 	death_timer(main_s, p_id);
 	pthread_mutex_lock(&main_s->print);
 	if (dead_checker(main_s) == 1)
@@ -76,8 +76,8 @@ int	eating_part2(t_data *main_s, int p_id)
 	printf("%ld %d picked up a fork\n", print_time(main_s->time), p_id + 1);
 	pthread_mutex_unlock(&main_s->print);
 	eating(main_s, p_id, main_s->tte);
-	pthread_mutex_unlock(&main_s->mforks[p_id + 1]);
 	pthread_mutex_unlock(&main_s->mforks[p_id]);
+	pthread_mutex_unlock(&main_s->mforks[p_id + 1]);
 	return (0);
 }
 
