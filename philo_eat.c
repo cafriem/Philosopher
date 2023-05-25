@@ -6,7 +6,7 @@
 /*   By: cafriem <cafriem@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 17:39:22 by cafriem           #+#    #+#             */
-/*   Updated: 2023/05/23 12:55:10 by cafriem          ###   ########.fr       */
+/*   Updated: 2023/05/25 20:40:20 by cafriem          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,16 @@ int	eating(t_data *main_s, int p_id, signed long timer)
 	return (0);
 }
 
-int	eating_part1_even(t_data *main_s, int p_id)
+int	eating_part1(t_data *main_s, int p_id)
 {
 	pthread_mutex_lock(&main_s->mforks[p_id]);
+		pthread_mutex_lock(&main_s->print);//
+		printf("0. hello\n");//
+		pthread_mutex_unlock(&main_s->print);//
 	pthread_mutex_lock(&main_s->mforks[0]);
+		pthread_mutex_lock(&main_s->print);//
+		printf("1. hellosss\n");//
+		pthread_mutex_unlock(&main_s->print);//
 	death_timer(main_s, p_id);
 	pthread_mutex_lock(&main_s->print);
 	if (dead_checker(main_s) == 1)
@@ -88,7 +94,7 @@ int	start_eating(t_data *main_s, int p_id)
 	if (dead_checker(main_s) == 1)
 		return (1);
 	if (p_id == main_s->no_philo - 1)
-		return (eating_part1_even(main_s, p_id));
+		return (eating_part1(main_s, p_id));
 	else
 		return (eating_part2(main_s, p_id));
 }

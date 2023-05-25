@@ -6,7 +6,7 @@
 /*   By: cafriem <cafriem@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 17:54:24 by cafriem           #+#    #+#             */
-/*   Updated: 2023/05/23 13:01:44 by cafriem          ###   ########.fr       */
+/*   Updated: 2023/05/25 20:26:50 by cafriem          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int			ft_isdigit(int c);
 int			letter_checker(char *argv[]);
 //-----------philo_eat.c------------//
 int			eating(t_data *main_s, int p_id, signed long timer);
-int			eating_part1_even(t_data *main_s, int p_id);
+int			eating_part1(t_data *main_s, int p_id);
 int			eating_part2(t_data *main_s, int p_id);
 int			start_eating(t_data *main_s, int p_id);
 //-----------philo_death.c---------------//
